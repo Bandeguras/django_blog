@@ -13,13 +13,19 @@ from django.views.generic import RedirectView, ListView, DetailView, CreateView,
 class ArticleLikes(View):
     def get(self, request, *args, **kwargs):
         article = get_object_or_404(Article, pk=self.kwargs.get('pk'))
-        print(article)
+        result = 0
         if request.user not in article.like.all():
             article.like.add(request.user)
+            result = 1
         else:
             article.like.remove(request.user)
+
+        like = article.get_like_count()
+
         data = {
-            'like': article.like.all().count(),
+            'like': like,
+            'pk': article.pk,
+            'result': result,
         }
         response = JsonResponse(data)
         return response
