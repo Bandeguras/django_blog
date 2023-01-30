@@ -1,22 +1,18 @@
     async function buttonClick(event) {
         let target = event.target;
         let url = target.dataset['indexLink'];
+        console.log(url)
         let response = await fetch(url);
-        if(response.ok) {
-            console.log('200 ok');
-        } else if (response.status === 400){
-            console.log('400');
-        }
         let index_text = await response.json();
-        console.log(index_text);
-    }
+        console.log(response)
 
+    }
     async function onLoad(){
-        let button = document.getElementById('button');
-        if (button){
-            button.onclick = buttonClick;
+        const button = document.querySelectorAll(`[id="button"]`);
+        if(button){
+        for(let i of button){
+            i.onclick = buttonClick
         }
-
+        }
     }
-
     window.addEventListener('load', onLoad)

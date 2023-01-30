@@ -10,6 +10,11 @@
                             {{ tag.name }} {% if  not forloop.last %},{% endif %}
                         {% endfor %}</p>
                         <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Подробнее...</a>
+                        <div>
+                        <button type="button" class="btn btn-primary"id="button" data-index-link="{% url 'webapp:article_like' article.pk %}">
+                        </button>
+                        <p id="likecount">{{ article.like.all.count }}</p>
+                        </div>
                     </div>
                 </div>
             </div>

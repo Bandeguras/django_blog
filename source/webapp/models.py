@@ -23,6 +23,7 @@ class Article(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Время создания")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Время изменения")
     tags = models.ManyToManyField('webapp.Tag', related_name='articles', blank=True)
+    like = models.ManyToManyField(get_user_model(), related_name='articles_like', verbose_name='Лайки')
 
     class Meta:
         permissions = [
@@ -47,6 +48,7 @@ class Comment(models.Model):
                                verbose_name="Автор")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Время создания")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Время изменения")
+    like = models.ManyToManyField(get_user_model(), related_name='comments_like', verbose_name='Лайки')
 
     def __str__(self):
         return f'{self.pk}. {self.text[:20]}'
