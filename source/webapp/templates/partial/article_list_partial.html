@@ -9,8 +9,8 @@
                         <p class="card-text">Теги: {% for tag in article.tags.all %}
                             {{ tag.name }} {% if  not forloop.last %},{% endif %}
                         {% endfor %}</p>
+                        <p class="card-text" id="value{{ article.pk }}">Лайки: {{ article.like.all.count }}</p>
                         <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Подробнее...</a>
-                        <div>
                         {% if request.user.is_authenticated %}
                         <button type="button" class="btn btn-primary"id="button" data-index-link="{% url 'webapp:article_like' article.pk %}">
                         {% if request.user in article.like.all %}
@@ -20,9 +20,6 @@
                         {% endif %}
                         </button>
                         {% endif %}
-
-                        <p id="value{{ article.pk }}">{{ article.like.all.count }} Likes</p>
-                        </div>
                     </div>
                 </div>
             </div>

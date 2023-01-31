@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block nav %}
-
     {% if request.user.is_authenticated %}
         <li class="nav-item">
             <a class="nav-link" href="{% url 'webapp:article_add' %}">Add Article</a>
@@ -27,38 +26,43 @@
 
     <div class="card my-3">
         <div class="card-body">
-            <h3 class="card-title fs-2">{{ article.title }}</h3>
-            <p class="card-text text-secondary">Автор: {{ article.author }}</p>
-            <p class="card-text text-secondary">Теги: {% for tag in article.tags.all %}
+
+            <div class="d-flex">
+                <h3 class="card-title fs-2">{{ article.title }}</h3>
+                <div class="ms-auto">
+                    {% if request.user.is_authenticated %}
+                    <button type="button" class="btn btn-primary"id="button" data-index-link="{% url 'webapp:article_like' article.pk %}">
+                    {% if request.user in article.like.all %}
+                        <span id="icon{{ article.pk }}"><i class="bi bi-hand-thumbs-up-fill"></i></span>
+                    {% else %}
+                        <span id="icon{{ article.pk }}"><i class="bi bi-hand-thumbs-up"></i></span>
+                    {% endif %}
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+
+            <p class="card-text text">Автор: {{ article.author }}</p>
+            <p class="card-text text">Теги: {% for tag in article.tags.all %}
                 {{ tag.name }} {% if  not forloop.last %},{% endif %}
             {% endfor %}</p>
+            <p class="card-text" id="value{{ article.pk }}">Лайки: {{ article.like.all.count }} </p>
             <p class="card-text">{{ article.content }}</p>
-        <div>
-        {% if request.user.is_authenticated %}
-        <button type="button" class="btn btn-primary"id="button" data-index-link="{% url 'webapp:article_like' article.pk %}">
-        {% if request.user in article.like.all %}
-            <span id="icon{{ article.pk }}"><i class="bi bi-hand-thumbs-up-fill"></i></span>
-        {% else %}
-            <span id="icon{{ article.pk }}"><i class="bi bi-hand-thumbs-up"></i></span>
-        {% endif %}
-        </button>
-        {% endif %}
 
-        <p id="value{{ article.pk }}">{{ article.like.all.count }} Likes</p>
-    </div>
         </div>
-
     </div>
+
     <h3 class="ms-3">Comments:</h3>
     <div class="row">
         {% for comment in comments %}
-
-            <div class="col-sm-4">
-                <div class="card text-bg-light mb-3">
+            <div class="col-sm-6">
+                <div class="card">
                     <div class="card-body">
-                        <p class="card-text">{{ comment.text }}</p>
+                        <p class="card-text">Коментарий: {{ comment.text }}</p>
+                        <p class="card-text" id="value{{ comment.pk }}">Лайки: {{ comment.like.all.count }} </p>
 
-                        <div class="d-flex justify-content-around">
+
+
                             {% if perms.webapp.change_comment or comment.author == request.user %}
                                 <a href="{% url 'webapp:comment_update' comment.pk %}"
                                    class="btn btn-success px-5">Update</a>
@@ -67,21 +71,16 @@
                                 <a href="{% url 'webapp:comment_delete' comment.pk %}"
                                    class="btn btn-danger px-5">Delete</a>
                             {% endif %}
-                        </div>
 
-                        <div>
-                        {% if request.user.is_authenticated %}
-                        <button type="button" class="btn btn-primary"id="button" data-index-link="{% url 'webapp:comment_like' comment.pk %}">
-                        {% if request.user in comment.like.all %}
-                            <span id="icon{{ comment.pk }}"><i class="bi bi-hand-thumbs-up-fill"></i></span>
-                        {% else %}
-                            <span id="icon{{ comment.pk }}"><i class="bi bi-hand-thumbs-up"></i></span>
-                        {% endif %}
-                        </button>
-                        {% endif %}
-                        <p id="value{{ comment.pk }}">{{ comment.like.all.count }} Likes </p>
-                        </div>
-
+                            {% if request.user.is_authenticated %}
+                            <button type="button" class="btn btn-primary"id="button" data-index-link="{% url 'webapp:comment_like' comment.pk %}">
+                            {% if request.user in comment.like.all %}
+                                <span id="icon{{ comment.pk }}"><i class="bi bi-hand-thumbs-up-fill"></i></span>
+                            {% else %}
+                                <span id="icon{{ comment.pk }}"><i class="bi bi-hand-thumbs-up"></i></span>
+                            {% endif %}
+                            </button>
+                            {% endif %}
 
                     </div>
                 </div>
