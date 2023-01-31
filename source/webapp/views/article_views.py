@@ -10,7 +10,7 @@ from django.http import JsonResponse
 from django.views.generic import RedirectView, ListView, DetailView, CreateView, UpdateView, DeleteView, View
 
 
-class ArticleLikes(View):
+class ArticleLikes(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         article = get_object_or_404(Article, pk=self.kwargs.get('pk'))
         result = 0
@@ -97,7 +97,6 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     #     if not request.user.has_perm('webapp.add_article'):
     #         raise PermissionDenied
     #     return super().dispatch( request, *args, **kwargs)
-
 
 
 class ArticleUpdateView(PermissionRequiredMixin, UpdateView):

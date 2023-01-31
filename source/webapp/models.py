@@ -52,3 +52,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.pk}. {self.text[:20]}'
+
+    def get_like_count(self):
+        return self.like.count()

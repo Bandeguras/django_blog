@@ -11,6 +11,7 @@
                         {% endfor %}</p>
                         <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Подробнее...</a>
                         <div>
+                        {% if request.user.is_authenticated %}
                         <button type="button" class="btn btn-primary"id="button" data-index-link="{% url 'webapp:article_like' article.pk %}">
                         {% if request.user in article.like.all %}
                             <span id="icon{{ article.pk }}"><i class="bi bi-hand-thumbs-up-fill"></i></span>
@@ -18,7 +19,9 @@
                             <span id="icon{{ article.pk }}"><i class="bi bi-hand-thumbs-up"></i></span>
                         {% endif %}
                         </button>
-                        <p id="value{{ article.pk }}">{{ article.like.all.count }}</p>
+                        {% endif %}
+
+                        <p id="value{{ article.pk }}">{{ article.like.all.count }} Likes</p>
                         </div>
                     </div>
                 </div>

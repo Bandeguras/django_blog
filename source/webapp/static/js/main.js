@@ -4,7 +4,7 @@
         let response = await fetch(url);
         let index_text = await response.json();
         let count = document.getElementById('value'+index_text.pk)
-        count.innerText = index_text.like
+        count.innerText = index_text.like + " Likes"
         let icon = document.getElementById('icon'+index_text.pk)
 
         if(index_text.result ===0){
