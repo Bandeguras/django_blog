@@ -43,7 +43,7 @@ class Article(models.Model):
 class Comment(models.Model):
     text = models.TextField(max_length=400, verbose_name='Комментарий')
     article = models.ForeignKey('webapp.Article', on_delete=models.CASCADE, related_name='comments',
-                                verbose_name="Статья")
+                                verbose_name="Статья", default=Article.objects.all()[0].pk)
     author = models.ForeignKey(get_user_model(), on_delete=models.SET_DEFAULT, default=1, related_name='comments',
                                verbose_name="Автор")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Время создания")
